@@ -1,14 +1,13 @@
 import 'dart:io';
 
-import 'package:drink_tea/pages/Order_Page.dart';
-import 'package:drink_tea/pages/guide_page.dart';
-import 'package:drink_tea/pages/menu_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-// @dart=2.9
+import 'model/test.dart';
+
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
   if (Platform.isAndroid) {
     SystemUiOverlayStyle style = SystemUiOverlayStyle(
@@ -35,7 +34,7 @@ class MyApp extends StatelessWidget {
           disabledColor: Color(0xff9b9b9b),
         ),
         // home: GuidePage(),
-        home: MenuPage(),
+        home: TestPage(),
       ),
     );
   }

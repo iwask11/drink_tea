@@ -1,6 +1,6 @@
 import 'package:drink_tea/data/IconFont.dart';
-import 'package:drink_tea/pages/Mine_Page.dart';
-import 'package:drink_tea/pages/menu_page.dart';
+import 'package:drink_tea/pages/Personal_Page.dart';
+import 'package:drink_tea/pages/Menu_page.dart';
 import 'package:drink_tea/pages/order_page.dart';
 
 import 'package:flutter/cupertino.dart';
