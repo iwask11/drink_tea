@@ -1,11 +1,7 @@
 
-import 'package:drink_tea/db/provider/TeaShowChoseText_provider.dart';
-import 'package:drink_tea/db/provider/TeaShow_provider.dart';
-import 'package:drink_tea/db/table_provider.dart';
 import 'package:drink_tea/model/TeaShow.dart';
 import 'package:drink_tea/model/TeaShowChoseText.dart';
 
-// TeaShowChoseTextProvider tableTeaShowChoseTextProvider = TeaShowChoseTextProvider<TeaShowChoseText>(_Table_TeaShowChoseText);
 const String _Table_TeaShow = 'TeaShow';
 const String _Table_TeaShowChoseText = 'TeaShowChoseText';
 const String _Create_TeaShow_Table_Sql = '''CREATE TABLE $_Table_TeaShow(

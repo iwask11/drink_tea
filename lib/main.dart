@@ -1,10 +1,11 @@
 import 'dart:io';
 
+import 'package:drink_tea/pages/Guide_page.dart';
+import 'package:drink_tea/pages/Menu_page.dart';
+import 'package:drink_tea/widgets/PageSlideView/menuWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'model/test.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,8 +34,8 @@ class MyApp extends StatelessWidget {
           accentColor: Color(0xffffffff),
           disabledColor: Color(0xff9b9b9b),
         ),
-        // home: GuidePage(),
-        home: TestPage(),
+        home: MenuWidget(),
+        // home: TestPage(),
       ),
     );
   }
