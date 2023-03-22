@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:drink_tea/data/data.dart';
+import 'package:drink_tea/db/provider/TeaShow_provider.dart';
+import 'package:drink_tea/db/provider_use.dart';
+import 'package:drink_tea/model/TeaShow.dart';
 import 'package:drink_tea/widgets/ListViewItem/MenuHorizontalItem.dart';
 import 'package:drink_tea/widgets/ListViewItem/MenuVerticalItem.dart';
 import 'package:flutter/cupertino.dart';
@@ -32,140 +35,112 @@ class _MenuWidgetState extends State<MenuWidget> {
   int totalDrink = 0;
 
   late StateSetter _stateSetter;
+  var _mFutrue;
+  var _aFutrue;
+  String currentTitle = "轻松点餐";
 
   void initState() {
     super.initState();
-
-    pageController = new PageController(
-      initialPage: 0,
-      keepPage: true,
-    );
-
-    pageController!.addListener(() {
-      double offset = pageController!.offset;
-      double page = pageController!.page!;
-      print("pageView 滑动距离 $offset 索引： $page");
-    });
+    pageController = new PageController(initialPage: 0, keepPage: true,);
   }
 
   void dispose(){
     super.dispose();
   }
 
-  Widget LeftGo() {
-    return Expanded(
-      flex: 4,
-      //竖向滑动菜品 + 横向滑动菜品
-      child: PageView.builder(
-          onPageChanged: (int index) {
-            print("当前页面是$index");
-            currentIndex = index;
-          },
-          reverse: false,
-          physics: BouncingScrollPhysics(),
-          scrollDirection: Axis.vertical,
-          controller: pageController,
-          itemCount: data.menuInfo.length,
-          itemBuilder: (BuildContext context, int index) {
-            //一个菜品分类块
-            return Container(
-              color: Colors.white,
-              margin: EdgeInsets.symmetric(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  //banner图
-                  index == 0
-                      ? Container(
-                    padding: EdgeInsets.symmetric( vertical: 30.h, horizontal: 10.w),
-                    child: Center( child: Card(
-                      elevation: 0.3, clipBehavior: Clip.antiAlias,
-                      shape: RoundedRectangleBorder( borderRadius: BorderRadiusDirectional.circular(20.r)),
-                      child: Image.asset("assets/image/other/banner.jpg"),
-                    ), ),
-                  )
-                      : Container(),
-
-                  //小标题
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(30.w, 40.h, 0.w, 20.h),
-                    child: Text(
-                      data.menuInfo[index],
-                      style: TextStyle(
-                          fontSize: 28.sp, fontWeight: FontWeight.normal),
-                    ),
-                  ),
-
-                  AList(data.menuInfo[index]),
-                ],
-              ),
-            );
-          }),
+  _TextTiTle28sp(String text){
+    return Text(text, style: TextStyle(fontSize: 28.sp, fontWeight: FontWeight.normal),
     );
   }
 
-  Widget RightGo() {
-    ///右边菜单栏
+  _MenuBtn(AsyncSnapshot snapshot){
+    print("snapshot.data.toString().length[q] "+ snapshot.data[1].toString());
+    return List.generate(
+        snapshot.data.length,
+            (index) =>GestureDetector(
+          child: Container(
+            alignment: Alignment.center,
+            color: currentIndex == index && iswhite ? Color(0xffffffff) : Color(0xfff1f1f1),
+            padding: EdgeInsets.symmetric(vertical: 20.h),
+            child: _TextTiTle28sp(snapshot.data[index].toString()),
+          ),
+          onTap: () {
+            iswhite = !iswhite;
+            currentIndex = index;
+            pageController!.animateToPage(index, duration: Duration(milliseconds: 200), curve: Curves.ease);
+            _stateSetter((){});
+          },
+        )
+    );
+  }
+
+  _MenuView(int index, AsyncSnapshot snapshot_title){
+    ProviderUse providerUse = new ProviderUse('TeaShowProvider');
+    currentTitle = snapshot_title.data[index].toString();
     return Container(
-      color: Color(0xfff1f1f1),
-      width: 177.w,
+      color: Colors.white,
       child: Column(
-        children: List.generate(
-            data.menuInfo.length,
-                (index) =>
-                Container(
-                    child: GestureDetector(
-                      child: Container(
-                        color: currentIndex == index && iswhite
-                            ? Color(0xffffffff)
-                            : Color(0xfff1f1f1),
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.symmetric(vertical: 20.h),
-                        child: Text(
-                          data.menuInfo[index],
-                          style: TextStyle(fontSize: 28.sp),
-                        ),
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          //banner图
+          index == 0 ? Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.symmetric( vertical: 30.h, horizontal: 10.w),
+            child: Card(
+              elevation: 0.3, clipBehavior: Clip.antiAlias,
+              shape: RoundedRectangleBorder( borderRadius: BorderRadiusDirectional.circular(20.r)),
+              child: Image.asset("assets/image/other/banner.jpg"),
+            ),
+          ): Container(),
+
+          //小标题
+          Padding(
+            padding: EdgeInsets.fromLTRB(30.w, 40.h, 0.w, 20.h),
+            child: _TextTiTle28sp(currentTitle),
+          ),
+
+          FutureBuilder(
+            future: providerUse.queryTableBySingleField("title",currentTitle),
+            builder: (BuildContext context, AsyncSnapshot snapshot){
+              if (snapshot.hasData) {
+                return index == 0 ? SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(children: List.generate(snapshot.data.length,
+                            (value) => MenuVerticalItem(info: snapshot.data[value])
+                    )))
+                    : Expanded(
+                      child: SingleChildScrollView(scrollDirection: Axis.vertical,
+                        child: Column(children: List.generate(
+                        snapshot.data.length,(value) => MenuHorizontalItem(info: snapshot.data[value])),),
                       ),
-                      onTap: () {
-                        iswhite = !iswhite;
-                        currentIndex = index;
-                        pageController!.animateToPage(index,
-                            duration: Duration(milliseconds: 200),
-                            curve: Curves.ease);
-                        _stateSetter((){});
-                      },
-                    )
-                )),
+                    );
+              }
+              // 错误界面
+              if (snapshot.hasError) {
+                return errorView(snapshot.error);
+              }
+              // 默认加载图
+              if (loadingView != null) {
+                return loadingView();
+              }
+              return Center(child: CircularProgressIndicator());
+            },
+          ),
+
+        ],
       ),
     );
   }
 
-  Widget AList(_menuInfoIndex) {
-    String isqingsong = "轻松点餐";
-
-    return Column(
-      children: List.generate(data.list.length,
-              (index) => Container(
-              child: isqingsong == data.menuInfo[index]
-                  ? SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                      children: List.generate(data.list[index].length,
-                              (value) => data.list[index][value]["title"] ==_menuInfoIndex && isqingsong != data.menuInfo[index]
-                              ? MenuVerticalItem(info: data.list[index][value])
-                              : Container())))
-              //其他栏目下的图片、名称等数据
-                  : Column(
-                children: List.generate(data.list[index].length,
-                        (value) =>data.list[index][value]["title"] ==_menuInfoIndex && isqingsong != data.menuInfo[index]
-                        ? MenuHorizontalItem(info: data.list[index][value])
-                        : Container()),
-              ))),
-    );
-  }
+  Widget errorView(Object? error) {return Text('$error');}
+  Widget loadingView(){return Text('loading...');}
 
   @override
   Widget build(BuildContext context) {
+
+    TeaShowProvider teaShowProvider = new TeaShowProvider();
+    _aFutrue = teaShowProvider.queryTitleInTable();
+
     return Scaffold(
       body: StatefulBuilder(
         builder: (BuildContext context, StateSetter setSate) {
@@ -173,7 +148,31 @@ class _MenuWidgetState extends State<MenuWidget> {
           return Stack(
             alignment: Alignment.center,
               children: [
-                Row(children: [ RightGo(), LeftGo()]),
+                FutureBuilder(
+                  future: _aFutrue,
+                    builder: (BuildContext context, AsyncSnapshot snapshot){
+                    return Row(children: [
+                      Container(
+                        width: 177.w,
+                        color: Color(0xfff1f1f1),
+                        child: Column(children: _MenuBtn(snapshot)),
+                      ),
+                      Expanded(
+                        flex: 4,
+                        //竖向滑动菜品 + 横向滑动菜品
+                        child: PageView.builder(
+                            reverse: false,
+                            physics: BouncingScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            controller: pageController,
+                            itemCount: data.menuInfo.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return _MenuView(index, snapshot);
+                            }),
+                      )
+                    ]);
+                    }
+                ),
                 Positioned( bottom: 30,
                     child: ShoppingCardStyle(isDisplay: canlook, totalDrink: totalDrink)
                 ),

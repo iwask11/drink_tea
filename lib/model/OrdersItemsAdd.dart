@@ -1,34 +1,33 @@
 
-
-class TeaShowChoseText{
-  late String chose_id;
+class OrdersItemsAdd {
+  late String orders_items_add_id;
   late String cap;
   late String ice;
   late String sweet;
   late String material;
 
 
-  TeaShowChoseText({
-    required this.chose_id,
-    required this.ice,
+  OrdersItemsAdd({
+    required this.orders_items_add_id,
     required this.cap,
+    required this.ice,
     required this.sweet,
-    required this.material
+    required this.material,
   });
 
-  TeaShowChoseText.fromJson(dynamic json){
-    chose_id = json['chose_id'];
-    ice = json['ice'];
+  OrdersItemsAdd.fromJson(dynamic json){
+    orders_items_add_id = json['orders_items_add_id'];
     cap = json['cap'];
+    ice = json['ice'];
     sweet = json['sweet'];
     material = json['material'];
   }
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['chose_id'] = chose_id;
-    map['ice'] = ice;
+    map['orders_items_add_id'] = orders_items_add_id;
     map['cap'] = cap;
+    map['ice'] = ice;
     map['sweet'] = sweet;
     map['material'] = material;
     return map;
@@ -36,9 +35,9 @@ class TeaShowChoseText{
 
   Map<String, dynamic> toMap() {
     return {
-      'chose_id': chose_id,
-      'ice': ice,
+      'orders_items_add_id': orders_items_add_id,
       'cap': cap,
+      'ice': ice,
       'sweet': sweet,
       'material': material,
     };
@@ -47,10 +46,10 @@ class TeaShowChoseText{
   @override
   String toString() {
     return '''
-    TeaShowChoseText{
-      chose_id: $chose_id,
-      ice: $ice,
+    OrdersItemsAdd{
+      orders_items_add_id: $orders_items_add_id,
       cap: $cap,
+      ice: $ice,
       sweet: $sweet,
       material: $material,
     }

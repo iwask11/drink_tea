@@ -23,25 +23,25 @@ class DrinkInfo{
   this.allPrice,this.discount,this.howBig,this.howIce,this.howSweet,this.WhatMixup);
 }
 
-class Order{
-  String pic;
-  String isOut;
-  String place;
-  String isOk;
-  String drinkName;
-  List basicHow;
-  double allPrice;
-  int howMany;
-  String finishTime;
-
-  Order(this.pic,this.isOut,this.place,this.isOk,this.drinkName,this.basicHow,
-      this.allPrice,this.howMany,this.finishTime);
-}
-
-class Recommend{
-  String pic;
-  String name;
-  List basicHow;
-
-  Recommend(this.pic,this.name,this.basicHow);
-}
+// class Order{
+//   String pic;
+//   String isOut;
+//   String place;
+//   String isOk;
+//   String drinkName;
+//   List basicHow;
+//   double allPrice;
+//   int howMany;
+//   String finishTime;
+//
+//   Order(this.pic,this.isOut,this.place,this.isOk,this.drinkName,this.basicHow,
+//       this.allPrice,this.howMany,this.finishTime);
+// }
+//
+// class Recommend{
+//   String pic;
+//   String name;
+//   List basicHow;
+//
+//   Recommend(this.pic,this.name,this.basicHow);
+// }

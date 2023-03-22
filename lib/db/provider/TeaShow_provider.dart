@@ -13,7 +13,7 @@ class TeaShowProvider extends BaseProvider {
 
   ///插入一条消息
   Future<int> insert(TeaShow msg) async {
-    Database? db = await this.getDataBase();
+    Database? db = await getDataBase();
     int? i = await db!.insert(
       GetTable(), msg.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
@@ -22,7 +22,7 @@ class TeaShowProvider extends BaseProvider {
   }
   ///修改表
   Future<int> update(TeaShow msg, String field, String parameter) async {
-    Database? db = await this.getDataBase();
+    Database? db = await getDataBase();
     int res = await db!.update(
       GetTable(), msg.toMap(),
       where: "$field = ?",
@@ -34,7 +34,7 @@ class TeaShowProvider extends BaseProvider {
   ///删除
   ///根据id删除某条表数据
   Future<int> deleteBySingleField(String field, String parameter) async {
-    Database? db = await this.getDataBase();
+    Database? db = await getDataBase();
     int res = await db!.delete(
         GetTable(),
         where: "$field = ?",
@@ -44,18 +44,28 @@ class TeaShowProvider extends BaseProvider {
   }
   ///清空整张表
   Future<void> dropTable() async {
-    Database? db = await this.getDataBase();
+    Database? db = await getDataBase();
     var res = await db!.execute('DROP table '+GetTable());
     return res;
   }
 
   ///查询表
-  ///根据id查询数据
-  Future<TeaShow?> queryTableBySingleField(String field, String parameter) async{
-    Database? db = await this.getDataBase();
+  ///
+  ///查询title列表
+  Future<List<String>> queryTitleInTable() async{
+    Database? db = await getDataBase();
+    List<Map<String, dynamic>> maps = await db!.query(GetTable(),orderBy: "title DESC",groupBy: "title",columns: ["title"]);
+    print("msgs-$maps");
+    List<String> list = maps.map((e) => e.values.toString().replaceAll("(", "").replaceAll(")", "")).toList();
+    print("list$list");
+    return list;
+  }
+  ///根据title查询数据
+  Future<List<TeaShow>?> queryTableBySingleField(String field, String parameter) async{
+    Database? db = await getDataBase();
     List<Map<String, dynamic>> maps = await db!.query(GetTable(), where: "$field = ?", whereArgs: [parameter]);
     if(maps.isNotEmpty) {
-      TeaShow msg =TeaShow.fromJson(maps.first);
+      List<TeaShow> msg =maps.map((item)=>TeaShow.fromJson(maps.first)).toList();
       print("msg-$msg");
       return msg;
     }
@@ -63,8 +73,8 @@ class TeaShowProvider extends BaseProvider {
   }
   ///查询全部数据列表
   Future<List<TeaShow>?> queryTableAll() async{
-    Database? db = await this.getDataBase();
-    List<Map<String, dynamic>> maps = await db!.query(GetTable());
+    Database? db = await getDataBase();
+    List<Map<String, dynamic>> maps = await db!.query(GetTable(),orderBy: "title DESC");
     if(maps.isNotEmpty) {
       List<TeaShow> msgs = maps.map((item)=>TeaShow.fromJson(item)).toList();
       print("msgs-$msgs");
@@ -74,7 +84,7 @@ class TeaShowProvider extends BaseProvider {
   }
   ///查询数据库中数据的总条数
   Future<int?> getTableCount() async{
-    Database? db = await this.getDataBase();
+    Database? db = await getDataBase();
     int? count = Sqflite.firstIntValue(await db!.rawQuery('select count(*) from '+GetTable()));
     print("count-$count");
     return count;

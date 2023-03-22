@@ -34,7 +34,7 @@ class TeaShow {
     map['tea_id'] = tea_id;
     map['title'] = title;
     map['name'] = name;
-    map['pic'] = pic_id;
+    map['pic_id'] = pic_id;
     map['price'] = price;
     map['introduce'] = introduce;
     map['chose_id'] = chose_id;

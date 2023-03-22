@@ -1,10 +1,11 @@
+import 'package:drink_tea/model/TeaShow.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/src/size_extension.dart';
 
 class MenuVerticalItem extends StatelessWidget {
   const MenuVerticalItem({Key? key, required this.info,}) : super(key: key);
-  final Map info;
+  final TeaShow info;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class MenuVerticalItem extends StatelessWidget {
               children: [
                 Padding(padding: EdgeInsets.symmetric(vertical: 22.h, horizontal: 24.w),
                   child: Image.asset(
-                    info["pic"].toString(),
+                    info.pic_id.toString(),
                     width: 154.w, height: 144.h,
                     fit: BoxFit.cover,
                   ),
@@ -36,7 +37,7 @@ class MenuVerticalItem extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(info["name"].toString(),
+                      Text(info.name.toString(),
                         textAlign: TextAlign.left,
                         style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.normal,),),
                       SizedBox(height: 18.h,),
@@ -45,7 +46,7 @@ class MenuVerticalItem extends StatelessWidget {
                           Text("￥".toString(),
                             textAlign: TextAlign.start,
                             style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),),
-                          Text(info["price"].toString() +"0",
+                          Text(info.price.toString() +"0",
                             textAlign:TextAlign.start,
                             style: TextStyle(fontSize: 34.sp,fontWeight:FontWeight.bold),),
                         ],

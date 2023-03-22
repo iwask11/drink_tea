@@ -1,10 +1,11 @@
+import 'package:drink_tea/model/TeaShow.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/src/size_extension.dart';
 
 class MenuHorizontalItem extends StatelessWidget {
   const MenuHorizontalItem({Key? key, required this.info,}) : super(key: key);
-  final Map info;
+  final TeaShow info;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class MenuHorizontalItem extends StatelessWidget {
         margin: EdgeInsets.symmetric(vertical: 16.h),
         child: Row(
           children: [
-            Image.asset(info["pic"].toString(),
+            Image.asset(info.pic_id.toString(),
               width: 189.w, height: 152.h, fit: BoxFit.fitHeight,),
             Expanded(
                 child: Stack(
@@ -33,10 +34,10 @@ class MenuHorizontalItem extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(info["name"].toString(),
+                              Text(info.name.toString(),
                                 style: TextStyle(fontSize: 30.sp),),
                               widget_h10,
-                              Text(info["introduce"].toString(),
+                              Text(info.introduce.toString(),
                                 style: TextStyle(fontSize: 22.sp,color: Color(0xff6b6b6b)),
                                 overflow:TextOverflow.ellipsis, maxLines: 2, softWrap: true),
                               widget_h5,
@@ -45,7 +46,7 @@ class MenuHorizontalItem extends StatelessWidget {
                                   Text( "￥",
                                     style: TextStyle(fontSize: 24.sp,fontWeight:FontWeight.bold),
                                   ),
-                                  Text(info["price"].toString() + "0".toString(),
+                                  Text(info.price.toString() + "0".toString(),
                                     style: TextStyle(fontSize: 36.sp,fontWeight: FontWeight.bold)),
                                 ],
                               )
@@ -56,8 +57,9 @@ class MenuHorizontalItem extends StatelessWidget {
                     ///点击添加按钮
                     // CircleAdd(false, index, value),
                   ],
-                ))
+                )),
           ],
-        ));
+        )
+    );
   }
 }

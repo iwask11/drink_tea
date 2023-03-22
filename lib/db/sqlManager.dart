@@ -1,4 +1,5 @@
-import 'package:drink_tea/db/utill.dart';
+import 'package:drink_tea/utills/db_sql_utill.dart';
+import 'package:drink_tea/utills/db_utill.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -12,7 +13,7 @@ class SqlManager{
       String base_path = await getDatabasesPath();
       String path = join(base_path, _DB_NAME);
       _database = await openDatabase(path, onCreate: (db, version) {
-        return db.execute(CreateTableSql());}, version: _DB_VERSION,);
+        CreateTableSql("null");}, version: _DB_VERSION,);
     }
     return _database;
   }
