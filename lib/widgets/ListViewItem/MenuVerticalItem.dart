@@ -1,14 +1,28 @@
+import 'dart:ffi';
+
 import 'package:drink_tea/model/TeaShow.dart';
+import 'package:drink_tea/utills/Item_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/src/size_extension.dart';
 
 class MenuVerticalItem extends StatelessWidget {
-  const MenuVerticalItem({Key? key, required this.info,}) : super(key: key);
+  const MenuVerticalItem({Key? key, required this.info, required this.changedCallBack,}) : super(key: key);
   final TeaShow info;
+  final ValueChanged changedCallBack;
 
+
+  double _getH(context) {
+    final double containerHeight = context.size.height;
+    print('Container height is $containerHeight');
+    return containerHeight;
+  }
   @override
   Widget build(BuildContext context) {
+    Future.delayed(Duration(milliseconds: 200),(){
+      var height = _getH(context);
+      changedCallBack(height);
+    });
     return Container(
       child: Stack(
         alignment: Alignment.bottomRight,

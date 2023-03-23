@@ -4,11 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/src/size_extension.dart';
 
 class MenuHorizontalItem extends StatelessWidget {
-  const MenuHorizontalItem({Key? key, required this.info,}) : super(key: key);
+  const MenuHorizontalItem({Key? key, required this.info,  required this.changedCallBack}) : super(key: key);
   final TeaShow info;
+  final ValueChanged changedCallBack;
 
+
+  double _getH(context) {
+    final double containerHeight = context.size.height;
+    print('Container height is $containerHeight');
+    return containerHeight;
+  }
   @override
   Widget build(BuildContext context) {
+    Future.delayed(Duration(milliseconds: 200),(){
+      var height = _getH(context);
+      changedCallBack(height);
+    });
     Widget widget_h10 = SizedBox(
       height: 5.h,
     );

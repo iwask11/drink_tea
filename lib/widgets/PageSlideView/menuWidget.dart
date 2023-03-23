@@ -8,6 +8,7 @@ import 'package:drink_tea/widgets/ListViewItem/MenuHorizontalItem.dart';
 import 'package:drink_tea/widgets/ListViewItem/MenuVerticalItem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_screenutil/src/size_extension.dart';
 
 import '../shoppingCard.dart';
@@ -103,16 +104,22 @@ class _MenuWidgetState extends State<MenuWidget> {
             future: providerUse.queryTableBySingleField("title",currentTitle),
             builder: (BuildContext context, AsyncSnapshot snapshot){
               if (snapshot.hasData) {
-                return index == 0 ? SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(children: List.generate(snapshot.data.length,
-                            (value) => MenuVerticalItem(info: snapshot.data[value])
+                return index == 0 ?
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                        child: Row(children: List.generate(snapshot.data.length,
+                            (value) => MenuVerticalItem(info: snapshot.data[value], changedCallBack: (h) {
+                              _stateSetter((){
+                                aHeight = h * 3;
+                              });
+                            })
                     )))
-                    : Expanded(
-                      child: SingleChildScrollView(scrollDirection: Axis.vertical,
-                        child: Column(children: List.generate(
-                        snapshot.data.length,(value) => MenuHorizontalItem(info: snapshot.data[value])),),
-                      ),
+                    : SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                      child: Column(children: List.generate(
+                      snapshot.data.length,(value) => MenuHorizontalItem(info: snapshot.data[value], changedCallBack: (h) {
+                                aHeight = h * snapshot.data.length;
+                      }))),
                     );
               }
               // 错误界面
@@ -135,6 +142,8 @@ class _MenuWidgetState extends State<MenuWidget> {
   Widget errorView(Object? error) {return Text('$error');}
   Widget loadingView(){return Text('loading...');}
 
+  double aHeight = 0;
+
   @override
   Widget build(BuildContext context) {
 
@@ -146,36 +155,49 @@ class _MenuWidgetState extends State<MenuWidget> {
         builder: (BuildContext context, StateSetter setSate) {
           _stateSetter = setSate;
           return Stack(
-            alignment: Alignment.center,
               children: [
                 FutureBuilder(
                   future: _aFutrue,
                     builder: (BuildContext context, AsyncSnapshot snapshot){
-                    return Row(children: [
+                    return Row(crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                       Container(
                         width: 177.w,
                         color: Color(0xfff1f1f1),
                         child: Column(children: _MenuBtn(snapshot)),
                       ),
-                      Expanded(
-                        flex: 4,
-                        //竖向滑动菜品 + 横向滑动菜品
-                        child: PageView.builder(
-                            reverse: false,
-                            physics: BouncingScrollPhysics(),
-                            scrollDirection: Axis.vertical,
-                            controller: pageController,
-                            itemCount: data.menuInfo.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return _MenuView(index, snapshot);
-                            }),
+                      Container(
+                        width: 1.sw - 177.w,
+                        child: AnimatedContainer(
+                          duration: Duration(milliseconds: 300),
+                          height: aHeight,
+                          curve: Curves.ease,
+                          child: NotificationListener(
+                            onNotification: (ScrollNotification scrollInfo){
+                              this.currentIndex = pageController!.page!.round();
+                              _stateSetter((){});
+                              return true;
+                            },
+                            child: PageView.builder(
+                                reverse: false,
+                                physics: BouncingScrollPhysics(),
+                                scrollDirection: Axis.vertical,
+                                controller: pageController,
+                                itemCount: data.menuInfo.length,
+                                allowImplicitScrolling: true,
+                                pageSnapping: true,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return _MenuView(index, snapshot);
+                                }),
+                          ),
+                        ),
                       )
                     ]);
                     }
                 ),
-                Positioned( bottom: 30,
-                    child: ShoppingCardStyle(isDisplay: canlook, totalDrink: totalDrink)
-                ),
+                // Positioned( bottom: 30,
+                //     child: ShoppingCardStyle(isDisplay: canlook, totalDrink: totalDrink)
+                // ),
               ]
           );
         }
