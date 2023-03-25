@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
           accentColor: Color(0xffffffff),
           disabledColor: Color(0xff9b9b9b),
         ),
+        // home: MenuPage(),
         home: MenuWidget(),
         // home: TestPage(),
       ),

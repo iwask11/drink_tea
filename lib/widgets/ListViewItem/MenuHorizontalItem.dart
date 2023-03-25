@@ -1,41 +1,26 @@
 import 'package:drink_tea/model/TeaShow.dart';
+import 'package:drink_tea/utills/Item_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/src/size_extension.dart';
 
 class MenuHorizontalItem extends StatelessWidget {
-  const MenuHorizontalItem({Key? key, required this.info,  required this.changedCallBack}) : super(key: key);
+  const MenuHorizontalItem({Key? key, required this.info}) : super(key: key);
   final TeaShow info;
-  final ValueChanged changedCallBack;
 
-
-  double _getH(context) {
-    final double containerHeight = context.size.height;
-    print('Container height is $containerHeight');
-    return containerHeight;
-  }
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration(milliseconds: 200),(){
-      var height = _getH(context);
-      changedCallBack(height);
-    });
-    Widget widget_h10 = SizedBox(
-      height: 5.h,
-    );
-    Widget widget_h5 = SizedBox(
-      height: 5.h,
-    );
 
     return Container(
-        width: 575.w,
+        // width: 575.w,
+        height: 100,
         color: Colors.white,
-        padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
-        margin: EdgeInsets.symmetric(vertical: 16.h),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+        margin:const EdgeInsets.only(bottom: 10),
         child: Row(
           children: [
             Image.asset(info.pic_id.toString(),
-              width: 189.w, height: 152.h, fit: BoxFit.fitHeight,),
+              width: 180.w, height: 180.h, fit: BoxFit.cover),
             Expanded(
                 child: Stack(
                   alignment: Alignment.bottomRight,
@@ -45,22 +30,11 @@ class MenuHorizontalItem extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(info.name.toString(),
-                                style: TextStyle(fontSize: 30.sp),),
-                              widget_h10,
-                              Text(info.introduce.toString(),
-                                style: TextStyle(fontSize: 22.sp,color: Color(0xff6b6b6b)),
-                                overflow:TextOverflow.ellipsis, maxLines: 2, softWrap: true),
-                              widget_h5,
-                              Row(
-                                children: [
-                                  Text( "￥",
-                                    style: TextStyle(fontSize: 24.sp,fontWeight:FontWeight.bold),
-                                  ),
-                                  Text(info.price.toString() + "0".toString(),
-                                    style: TextStyle(fontSize: 36.sp,fontWeight: FontWeight.bold)),
-                                ],
-                              )
+                              TitleText(info.name),
+                              Spacer(),
+                              TagText(info.introduce),
+                              Spacer(),
+                              PriceText(info.price),
                             ],
                           ),
                         )),
