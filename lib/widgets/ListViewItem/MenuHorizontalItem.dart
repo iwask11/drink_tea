@@ -12,11 +12,10 @@ class MenuHorizontalItem extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Container(
-        // width: 575.w,
-        height: 100,
+        height: 200.h,
         color: Colors.white,
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-        margin:const EdgeInsets.only(bottom: 10),
+        padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 5),
+        margin: EdgeInsets.only(bottom: 10.h),
         child: Row(
           children: [
             Image.asset(info.pic_id.toString(),

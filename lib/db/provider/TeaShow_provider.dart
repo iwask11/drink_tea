@@ -55,7 +55,6 @@ class TeaShowProvider extends BaseProvider {
   Future<List<String>> queryTitleInTable() async{
     Database? db = await getDataBase();
     List<Map<String, dynamic>> maps = await db!.query(GetTable(),orderBy: "title DESC",groupBy: "title",columns: ["title"]);
-    print("msgs-$maps");
     List<String> list = maps.map((e) => e.values.toString().replaceAll("(", "").replaceAll(")", "")).toList();
     print("list$list");
     return list;
