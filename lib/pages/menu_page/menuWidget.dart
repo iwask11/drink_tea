@@ -1,6 +1,7 @@
-import 'package:drink_tea/pages/menu/provider.dart';
-import 'package:drink_tea/widgets/MenuBtn.dart';
-import 'package:drink_tea/widgets/menuView.dart';
+import 'package:drink_tea/pages/menu_page/provider.dart';
+import 'package:drink_tea/pages/menu_page/MenuBtn.dart';
+import 'package:drink_tea/pages/menu_page/menuView.dart';
+import 'package:drink_tea/utills/Item_util.dart';
 import 'package:drink_tea/widgets/shoppingCard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,14 +23,11 @@ class _MenuWidgetState extends State<MenuWidget> {
   ///是否弹出菜单栏
   bool canpop = false;
   ///当前饮品有多少
-  List currentDrinkMany = [];
+  List currentGoods = [];
   ///总共有多少饮品
-  int totalDrink = 0;
+  int totalNum = 3;
 
   var afuture;
-
-  Widget errorView(Object? error) {return Text('$error');}
-  Widget loadingView(){return Text('loading...');}
 
 
   void initState(){
@@ -44,15 +42,14 @@ class _MenuWidgetState extends State<MenuWidget> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Stack(
-        overflow: Overflow.visible,
-          alignment: Alignment.center,
-          children: [
-            FutureBuilder(
-                future: afuture,
-                builder: (BuildContext context, AsyncSnapshot snapshot){
-                  if (snapshot.hasData) {
-                    return Row(crossAxisAlignment: CrossAxisAlignment.start,
+      child: FutureBuilder(
+          future: afuture,
+          builder: (BuildContext context, AsyncSnapshot snapshot){
+            if (snapshot.hasData) {
+              return Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Row(crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
                             width: 177.w,
@@ -63,24 +60,24 @@ class _MenuWidgetState extends State<MenuWidget> {
                               child: MenuPageView(titleList: snapshot.data["titleList"], itemsMap: snapshot.data["itemsMap"])
                           )
                         ]
-                    );
-                  }
-                  // 错误界面
-                  if (snapshot.hasError) {
-                    return errorView(snapshot.error);
-                  }
-                  // 默认加载图
-                  if (loadingView != null) {
-                    return loadingView();
-                  }
-                  return Center(child: CircularProgressIndicator());
-                }
-            ),
-
-            Positioned( bottom: 30,
-                child: ShoppingCardStyle(isDisplay: canlook, totalDrink: totalDrink)
-            ),
-          ]
+                    ),
+                    Positioned(
+                        bottom: 30,
+                        child: ShoppingCardStyle(isDisplay: canlook, totalNum: totalNum)
+                    ),
+                  ]
+              );
+            }
+            // 错误界面
+            if (snapshot.hasError) {
+              return errorView(snapshot.error);
+            }
+            // 默认加载图
+            if (loadingView != null) {
+              return loadingView();
+            }
+            return Center(child: CircularProgressIndicator());
+          }
       ),
     );
   }

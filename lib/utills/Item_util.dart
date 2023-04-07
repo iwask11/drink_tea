@@ -51,6 +51,9 @@ TagText(String text){
       overflow:TextOverflow.ellipsis, maxLines: 2, softWrap: true);
 }
 
+Widget space_h20 = SizedBox(
+  height: 20.h,
+);
 Widget space_h10 = SizedBox(
   height: 10.h,
 );
@@ -63,3 +66,7 @@ Widget space_w10 = SizedBox(
 Widget space_w5 = SizedBox(
   height: 5.w,
 );
+
+
+Widget errorView(Object? error) {return Text('$error');}
+Widget loadingView(){return Text('loading...');}

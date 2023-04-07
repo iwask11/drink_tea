@@ -51,11 +51,11 @@ class TeaShowChoseTextProvider extends BaseProvider {
 
   ///查询表
   ///根据id查询数据
-  Future<TeaShowChoseText?> queryTableBySingleField(String field, String parameter) async{
+  Future<List<TeaShowChoseText>?> queryTableBySingleField(String field, String parameter) async{
     Database? db = await getDataBase();
     List<Map<String, dynamic>> maps = await db!.query(GetTable(), where: "$field = ?", whereArgs: [parameter]);
     if(maps.isNotEmpty) {
-      TeaShowChoseText msg =TeaShowChoseText.fromJson(maps.first);
+      List<TeaShowChoseText> msg =maps.map((item)=>TeaShowChoseText.fromJson(maps.first)).toList();
       print("msg-$msg");
       return msg;
     }

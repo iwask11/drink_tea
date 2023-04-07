@@ -65,7 +65,7 @@ class TeaShowProvider extends BaseProvider {
     List<Map<String, dynamic>> maps = await db!.query(GetTable(), where: "$field = ?", whereArgs: [parameter]);
     if(maps.isNotEmpty) {
       List<TeaShow> msg =maps.map((item)=>TeaShow.fromJson(maps.first)).toList();
-      print("msg-$msg");
+      // print("msg-$msg");
       return msg;
     }
     return null;

@@ -1,13 +1,13 @@
 import 'package:drink_tea/model/TeaShow.dart';
-import 'package:drink_tea/pages/menu/provider.dart';
+import 'package:drink_tea/pages/menu_page/provider.dart';
 import 'package:drink_tea/utills/Item_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/src/size_extension.dart';
 import 'package:provider/provider.dart';
 
-import 'ListViewItem/MenuHorizontalItem.dart';
-import 'ListViewItem/MenuVerticalItem.dart';
+import '../../widgets/ListViewItem/MenuHorizontalItem.dart';
+import '../../widgets/ListViewItem/MenuVerticalItem.dart';
 
 class MenuPageView extends StatelessWidget {
   const MenuPageView({
@@ -27,7 +27,7 @@ class MenuPageView extends StatelessWidget {
       children: [
         Container(
           alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(vertical: 30.h, horizontal: 10.w),
+          padding: EdgeInsets.symmetric(horizontal: 10.w),
           child: Card(
             elevation: 0.3, clipBehavior: Clip.antiAlias,
             shape: RoundedRectangleBorder(
@@ -37,7 +37,7 @@ class MenuPageView extends StatelessWidget {
         ),
         ListTile(title: PageTiTle(title)),
         Container(
-          height: 340.h,
+          height: 380.h,
           child: ListView.builder(
               prototypeItem: MenuVerticalItem(info: item[0]),
               scrollDirection: Axis.horizontal,

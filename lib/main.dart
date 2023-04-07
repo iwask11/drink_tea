@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:drink_tea/pages/menu/view.dart';
+import 'package:drink_tea/pages/menu_page/view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

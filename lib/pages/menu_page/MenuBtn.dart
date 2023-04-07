@@ -1,4 +1,4 @@
-import 'package:drink_tea/pages/menu/provider.dart';
+import 'package:drink_tea/pages/menu_page/provider.dart';
 import 'package:drink_tea/utills/Item_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/src/size_extension.dart';
@@ -28,7 +28,7 @@ class MenuBtn extends StatelessWidget {
                             padding: EdgeInsets.symmetric(vertical: 20.h),
                             child: PageTiTle(btnItem[index].title.toString()),
                           ),
-                      onTap: () => provider.onTap(index)
+                      onTap: () => provider.menuBtnClick(index)
                     );
                   }),
               )

@@ -8,11 +8,11 @@ class ShoppingCardStyle extends StatefulWidget {
   const ShoppingCardStyle({
     Key? key,
     required this.isDisplay,
-    required this.totalDrink
+    required this.totalNum
   }) : super(key: key);
 
   final bool isDisplay;
-  final int totalDrink;
+  final int totalNum;
 
   @override
   State<ShoppingCardStyle> createState() => _ShoppingCardStyleState();
@@ -50,7 +50,7 @@ class _ShoppingCardStyleState extends State<ShoppingCardStyle> {
                   Text("￥",
                     style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
                   ),
-                  Text((widget.totalDrink * 14).toString(),
+                  Text((widget.totalNum * 14).toString(),
                     style:TextStyle(fontSize: 42.sp, fontWeight: FontWeight.bold),
                   )],
               ),
@@ -88,7 +88,7 @@ class _ShoppingCardStyleState extends State<ShoppingCardStyle> {
                     width: 30.r,height: 30.r,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.red),
-                    child: Text(widget.totalDrink.toString(),
+                    child: Text(widget.totalNum.toString(),
                       style: TextStyle(fontSize: 20.sp, color: Colors.white),
                     ),
                   ))
